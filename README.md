@@ -27,6 +27,8 @@ Gifty isn't on the Chrome Web Store yet, so install it unpacked. It takes about 
 4. Click **Load unpacked** and choose the folder from step 1.
 5. Pin Gifty to your toolbar with the puzzle-piece menu, so the button is always visible.
 
+**Keep the folder where it is.** An unpacked extension loads its files from that folder every time the browser starts — it doesn't copy them into the browser. If you move, rename, or delete the folder, the extension breaks. So put it somewhere permanent *before* you load it (e.g. `Documents/Gifty` rather than Downloads). If you need to move it later, export your items from the dashboard first, move the folder, remove the extension, load it unpacked from the new location, and import the export back — moving the folder changes the extension's ID, so your saved items won't follow it on their own.
+
 To update after pulling new changes, open `chrome://extensions` and click the reload icon on Gifty's card. Your saved items are kept.
 
 A note on icons: the toolbar icons are PNG files (`icons/icon16.png`, `icon48.png`, `icon128.png`). If your checkout is missing them, generate them from the SVG source with `python3 tools/make-icons.py` (needs Pillow: `pip install Pillow`), then reload the extension.
