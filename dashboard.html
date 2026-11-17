@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Gifty — Your Wish Lists</title>
+<link rel="stylesheet" href="dashboard.css">
+</head>
+<body>
+<header class="topbar">
+  <span class="brand"><span aria-hidden="true">🎁</span> Gifty</span>
+  <input id="searchInput" type="search" placeholder="Search titles, notes, tags…" aria-label="Search saved items">
+  <select id="statusFilter" aria-label="Filter by status">
+    <option value="all">All statuses</option>
+    <option value="want">Still wanted</option>
+    <option value="bought">Bought</option>
+  </select>
+  <select id="sortSelect" aria-label="Sort items">
+    <option value="newest">Newest first</option>
+    <option value="oldest">Oldest first</option>
+    <option value="priceAsc">Price: low to high</option>
+    <option value="priceDesc">Price: high to low</option>
+    <option value="titleAsc">Title A–Z</option>
+  </select>
+  <button id="addBtn" class="btn primary" type="button">+ Add manually</button>
+  <button id="exportJsonBtn" class="btn" type="button">Export JSON</button>
+  <button id="exportCsvBtn" class="btn" type="button">Export CSV</button>
+  <button id="importBtn" class="btn" type="button">Import</button>
+  <input id="importFile" type="file" accept="application/json,.json" class="hidden" aria-label="Import a Gifty JSON export">
+</header>
+
+<div id="devBanner" class="dev-banner hidden">Preview mode: you're viewing this page outside the extension, so items are kept in this browser's local storage only. Install the extension to save from any page.</div>
+
+<div class="layout">
+  <aside class="sidebar">
+    <h2>Lists</h2>
+    <ul id="listNav" class="list-nav"></ul>
+    <form id="newListForm">
+      <input id="newListInput" type="text" maxlength="60" placeholder="New list name" aria-label="New list name" autocomplete="off">
+      <button class="btn small" type="submit">Add list</button>
+    </form>
+    <p id="storageInfo" class="muted small"></p>
+    <p class="muted small">Everything here is stored only in this browser. Nothing is uploaded anywhere. Use Export to keep a backup.</p>
+  </aside>
+
+  <main>
+    <div class="view-head">
+      <h1 id="viewTitle">All items</h1>
+      <p id="viewCount" class="muted"></p>
+    </div>
+    <div id="tagChips" class="chips"></div>
+    <p id="emptyState" class="empty hidden"></p>
+    <div id="grid" class="grid"></div>
+  </main>
+</div>
+
+<div id="modalOverlay" class="overlay hidden">
+  <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+    <h2 id="modalTitle">Edit item</h2>
+    <form id="editForm" novalidate>
+      <input type="hidden" id="editId">
+      <label class="field-label" for="editTitle">Title</label>
+      <input id="editTitle" type="text" required maxlength="300">
+      <label class="field-label" for="editUrl">Link</label>
+      <input id="editUrl" type="url" required spellcheck="false">
+      <label class="field-label" for="editImage">Image URL</label>
+      <input id="editImage" type="url" spellcheck="false" placeholder="https://… (optional)">
+      <div class="row">
+        <div class="grow">
+          <label class="field-label" for="editPrice">Price</label>
+          <input id="editPrice" type="text" inputmode="decimal" placeholder="e.g. 49.99">
+        </div>
+        <div>
+          <label class="field-label" for="editCurrency">Currency</label>
+          <select id="editCurrency">
+            <option value="">—</option>
+            <option value="USD">USD $</option>
+            <option value="EUR">EUR €</option>
+            <option value="GBP">GBP £</option>
+            <option value="JPY">JPY ¥</option>
+            <option value="AUD">AUD</option>
+            <option value="CAD">CAD</option>
+            <option value="CHF">CHF</option>
+            <option value="NZD">NZD</option>
+            <option value="INR">INR ₹</option>
+          </select>
+        </div>
+      </div>
+      <label class="field-label" for="editDescription">Description</label>
+      <textarea id="editDescription" rows="2" maxlength="1000"></textarea>
+      <div class="row">
+        <div class="grow">
+          <label class="field-label" for="editList">List</label>
+          <select id="editList"></select>
+        </div>
+        <div>
+          <label class="field-label" for="editPriority">Priority</label>
+          <select id="editPriority">
+            <option value="low">Low</option>
+            <option value="medium">Medium</option>
+            <option value="high">High</option>
+          </select>
+        </div>
+        <div>
+          <label class="field-label" for="editStatus">Status</label>
+          <select id="editStatus">
+            <option value="want">Still wanted</option>
+            <option value="bought">Bought</option>
+          </select>
+        </div>
+      </div>
+      <label class="field-label" for="editTags">Tags <span class="muted">(comma-separated)</span></label>
+      <input id="editTags" type="text" autocomplete="off">
+      <label class="field-label" for="editNote">Note</label>
+      <textarea id="editNote" rows="2" maxlength="2000"></textarea>
+      <p id="editError" class="error hidden" role="alert"></p>
+      <div class="modal-actions">
+        <button id="deleteFromModal" class="btn danger" type="button">Delete</button>
+        <span class="spacer"></span>
+        <button id="cancelEdit" class="btn" type="button">Cancel</button>
+        <button class="btn primary" type="submit">Save</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<p id="toast" class="toast hidden" role="status"></p>
+
+<script src="utils.js"></script>
+<script src="store.js"></script>
+<script src="dashboard.js"></script>
+</body>
+</html>

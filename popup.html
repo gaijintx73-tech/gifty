@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Save to Gifty</title>
+<link rel="stylesheet" href="popup.css">
+</head>
+<body>
+<header class="top">
+  <span class="brand"><span class="gift" aria-hidden="true">🎁</span> Gifty</span>
+  <button id="viewAllBtn" class="link-btn" type="button">View all</button>
+</header>
+
+<p id="loading" class="muted center">Reading this page…</p>
+
+<div id="unsupported" class="hidden">
+  <p>Gifty works on regular web pages. This page (a browser or extension page) can't be read, but you can still add things by hand.</p>
+  <button id="openDashboardUnsupported" class="btn primary" type="button">Open Gifty to add manually</button>
+</div>
+
+<form id="saveForm" class="hidden" novalidate>
+  <div id="duplicateBanner" class="banner hidden"></div>
+
+  <div class="preview">
+    <div id="imageWrap" class="image-wrap">
+      <img id="previewImg" alt="" referrerpolicy="no-referrer">
+      <div id="noImage" class="no-image hidden">No image found</div>
+    </div>
+    <div id="imageNav" class="image-nav hidden">
+      <button id="prevImg" class="small-btn" type="button" aria-label="Previous image">‹ Prev</button>
+      <span id="imageCount" class="muted"></span>
+      <button id="nextImg" class="small-btn" type="button" aria-label="Next image">Next ›</button>
+    </div>
+    <label class="field-label" for="imageUrl">Image URL</label>
+    <input id="imageUrl" type="url" placeholder="https://… (optional)" autocomplete="off" spellcheck="false">
+  </div>
+
+  <label class="field-label" for="title">Title</label>
+  <input id="title" type="text" required maxlength="300" autocomplete="off">
+
+  <p id="pageUrl" class="url-line muted"></p>
+  <p id="description" class="description muted hidden"></p>
+
+  <div class="row">
+    <div class="grow">
+      <label class="field-label" for="price">Price</label>
+      <input id="price" type="text" inputmode="decimal" placeholder="e.g. 49.99" autocomplete="off">
+    </div>
+    <div>
+      <label class="field-label" for="currency">Currency</label>
+      <select id="currency">
+        <option value="">—</option>
+        <option value="USD">USD $</option>
+        <option value="EUR">EUR €</option>
+        <option value="GBP">GBP £</option>
+        <option value="JPY">JPY ¥</option>
+        <option value="AUD">AUD</option>
+        <option value="CAD">CAD</option>
+        <option value="CHF">CHF</option>
+        <option value="NZD">NZD</option>
+        <option value="INR">INR ₹</option>
+      </select>
+    </div>
+  </div>
+
+  <label class="field-label" for="listSelect">List</label>
+  <select id="listSelect"></select>
+  <input id="newListName" class="hidden" type="text" maxlength="60" placeholder="New list name" autocomplete="off">
+
+  <label class="field-label" for="tags">Tags <span class="muted">(comma-separated)</span></label>
+  <input id="tags" type="text" placeholder="e.g. kitchen, gift for Kim" autocomplete="off">
+
+  <label class="field-label" for="priority">Priority</label>
+  <select id="priority">
+    <option value="low">Low</option>
+    <option value="medium" selected>Medium</option>
+    <option value="high">High</option>
+  </select>
+
+  <label class="field-label" for="note">Note</label>
+  <textarea id="note" rows="2" maxlength="2000" placeholder="Why you want it, size, color…"></textarea>
+
+  <p id="errorText" class="error hidden" role="alert"></p>
+  <button id="saveBtn" class="btn primary full" type="submit">Save to Gifty</button>
+  <p class="hint muted center">Saved only in this browser · Ctrl/⌘ + Enter to save</p>
+</form>
+
+<div id="savedView" class="hidden center">
+  <p class="saved-check" aria-hidden="true">✓</p>
+  <p id="savedText">Saved.</p>
+  <button id="viewSavedBtn" class="btn primary" type="button">View in Gifty</button>
+  <button id="closeBtn" class="btn" type="button">Close</button>
+</div>
+
+<script src="utils.js"></script>
+<script src="store.js"></script>
+<script src="popup.js"></script>
+</body>
+</html>
